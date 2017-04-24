@@ -6,6 +6,8 @@ import com.mj.auto_complete.model.Node
   * Created by fjim on 24/04/2017.
   */
 class TernarySearchTree {
+  var res: List[String] = List()
+
   def insert(node: Option[Node], word: List[Char], position: Int): Node = {
     def insertMiddle(nd: Node) =
       if (position + 1 < word.length)
@@ -65,4 +67,50 @@ class TernarySearchTree {
         }
       }
     }*/
+
+
+  def traverse(node: Option[Node], word: String): List[String] = {
+    if (word.length == 0)
+      traverseWithoutWord(node, "")
+    else
+      traverseWithWord(node, word, 0)
+    res
+  }
+
+  def traverseWithoutWord(node: Option[Node], word: String): Unit = {
+    if (node.isDefined && node.get != null) {
+      val stringBuilder = new StringBuilder(word)
+
+      if (node.get.left isDefined)
+        traverseWithoutWord(node.get.left, stringBuilder.toString())
+
+      stringBuilder.append(node.get.data)
+      if (node.get.isEnd)
+        res = res :+ stringBuilder.toString()
+
+      if (node.get.middle isDefined)
+        traverseWithoutWord(node.get.middle, stringBuilder.toString())
+
+      if (node.get.right isDefined) {
+        var str = stringBuilder.toString()
+        str = str.substring(0, str.length - 1)
+        traverseWithoutWord(node.get.right, str)
+      }
+    }
+  }
+
+  def traverseWithWord(node: Option[Node], word: String, position: Int): Unit = {
+    if (node isDefined) {
+      if (word.charAt(position) > node.get.data) {
+        traverseWithWord(node.get.right, word, position)
+      } else if (word.charAt(position) < node.get.data) {
+        traverseWithWord(node.get.left, word, position)
+      } else {
+
+        //todo: correct this part
+        traverseWithWord(node.get.middle, word, position+1)
+        traverseWithoutWord(node.get.middle, word)
+      }
+    }
+  }
 }

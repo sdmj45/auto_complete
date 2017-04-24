@@ -42,6 +42,23 @@ class TernarySearchTreeTest extends BaseTest {
     }
   }
 
+  "traverse" should {
+    "success" in {
+      val node = Node('a', middle = Some(Node('b', isEnd = true)))
+      tst.insert(Some(node), "adc".toList, 0)
+      tst.insert(Some(node), "aecbd".toList, 0)
+      tst.insert(Some(node), "aaa".toList, 0)
+      tst.insert(Some(node), "daa".toList, 0)
+      tst.insert(Some(node), "adaa".toList, 0)
+      println(node)
+      println(tst.traverse(Some(node),"a"))
+//      assertResult(true)(tst.search(Some(insertRes), "aecbd".toList, 0))
+//      assertResult(true)(tst.search(Some(insertRes), "adc".toList, 0))
+//      assertResult(false)(tst.search(Some(insertRes), "aecbdd".toList, 0))
+//      assertResult(false)(tst.search(Some(insertRes), "adecbd".toList, 0))
+    }
+  }
+
   "delete" should {
 
   }

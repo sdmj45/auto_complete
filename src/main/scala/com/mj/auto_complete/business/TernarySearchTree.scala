@@ -7,7 +7,6 @@ import com.mj.auto_complete.model.Node
   */
 class TernarySearchTree {
 
-
   def insert(node: Option[Node], word: List[Char], position: Int): Node = {
     def insertMiddle(nd: Node) =
       if (position + 1 < word.length)

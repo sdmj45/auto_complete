@@ -106,10 +106,14 @@ class TernarySearchTree {
       } else if (word.charAt(position) < node.get.data) {
         traverseWithWord(node.get.left, word, position)
       } else {
-
-        //todo: correct this part
-        traverseWithWord(node.get.middle, word, position+1)
-        traverseWithoutWord(node.get.middle, word)
+        //middle ok!
+        if (position + 1 < word.length)
+          traverseWithWord(node.get.middle, word, position + 1)
+        else {
+          if (node.get.isEnd)
+            res = res :+ word
+          traverseWithoutWord(node.get.middle, word)
+        }
       }
     }
   }

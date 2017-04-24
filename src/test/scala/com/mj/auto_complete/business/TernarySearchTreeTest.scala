@@ -23,6 +23,22 @@ class TernarySearchTreeTest extends WordSpec with Matchers with BeforeAndAfter {
       val res = tst.insert(Some(node), "adc".toList, 0)
       assertResult('d')(res.middle.get.right.get.data)
       assertResult(true)(res.middle.get.right.get.middle.get.isEnd)
+      val res2 = tst.insert(Some(res), "aecb".toList, 0)
+      println(res)
+      val search = tst.search(Some(res),"aecb".toList, 0)
+      println(search)
+    }
+  }
+
+  "search" should {
+    "success" in {
+      val node = Node('a', middle = Some(Node('b', isEnd = true)))
+      val insertRes = tst.insert(Some(node), "adc".toList, 0)
+      tst.insert(Some(insertRes), "aecbd".toList, 0)
+      assertResult(true)(tst.search(Some(insertRes), "aecbd".toList, 0))
+      assertResult(true)(tst.search(Some(insertRes), "adc".toList, 0))
+      assertResult(false)(tst.search(Some(insertRes), "aecbdd".toList, 0))
+      assertResult(false)(tst.search(Some(insertRes), "adecbd".toList, 0))
     }
   }
 }

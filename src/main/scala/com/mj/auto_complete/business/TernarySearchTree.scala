@@ -28,4 +28,19 @@ class TernarySearchTree {
       node.get
     }
   }
+
+  def search(node: Option[Node], word: List[Char], position: Int): Boolean = {
+    if (node isEmpty)
+      false
+    else {
+      word(position) match {
+        case p if p < node.get.data => search(node.get.left, word, position)
+        case p if p > node.get.data => search(node.get.right, word, position)
+        case _ =>
+          if (node.get.isEnd && position + 1 == word.length) true
+          else if (position + 1 == word.length) false
+          else search(node.get.middle, word, position + 1)
+      }
+    }
+  }
 }

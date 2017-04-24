@@ -1,12 +1,12 @@
 package com.mj.auto_complete.business
 
+import com.mj.auto_complete.BaseTest
 import com.mj.auto_complete.model.Node
-import org.scalatest.{BeforeAndAfter, Matchers, WordSpec}
 
 /**
   * Created by fjim on 24/04/2017.
   */
-class TernarySearchTreeTest extends WordSpec with Matchers with BeforeAndAfter {
+class TernarySearchTreeTest extends BaseTest {
   private var tst: TernarySearchTree = _
   before {
     tst = new TernarySearchTree
@@ -40,5 +40,9 @@ class TernarySearchTreeTest extends WordSpec with Matchers with BeforeAndAfter {
       assertResult(false)(tst.search(Some(insertRes), "aecbdd".toList, 0))
       assertResult(false)(tst.search(Some(insertRes), "adecbd".toList, 0))
     }
+  }
+
+  "delete" should {
+
   }
 }

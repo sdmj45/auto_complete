@@ -13,7 +13,7 @@ class TernarySearchTree {
       else
         nd.isEnd = true
 
-    if (node isEmpty) {
+    if ((node isEmpty) || node.get == null) {
       //create new node
       val nd = Node(word(position))
       insertMiddle(nd)
@@ -43,4 +43,26 @@ class TernarySearchTree {
       }
     }
   }
+
+  /*  def delete(node: Option[Node], word: List[Char], position: Int): Unit = {
+      if (node isDefined) {
+        if (!node.get.hasChildren)
+          node.get.remove
+        else {
+          if (word(position) < node.get.data) {
+            delete(node.get.left, word, position)
+          } else if (word(position) > node.get.data) {
+            delete(node.get.right, word, position)
+          } else {
+            //delete
+            if (position + 1 == word.length) {
+              if (node.get.hasChildren)
+                node.get.isEnd = false
+              else
+                delete(node.get.middle, word, position - 1)
+            }
+          }
+        }
+      }
+    }*/
 }

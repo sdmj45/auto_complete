@@ -1,4 +1,4 @@
-package com.mj.auto_complete
+package com.mj.auto_complete.app
 
 import com.mj.auto_complete.business.TernarySearchTree
 import com.mj.auto_complete.model.Node
@@ -25,4 +25,7 @@ class App(tst: TernarySearchTree) {
 
   def search(word: String): Boolean =
     tst.search(Some(node), word.toList, 0)
+
+  def autocomplete(prefix: String): List[String] =
+    tst.autocomplete(Some(node), prefix)
 }

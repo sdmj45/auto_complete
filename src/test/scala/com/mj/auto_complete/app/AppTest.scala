@@ -1,5 +1,6 @@
-package com.mj.auto_complete
+package com.mj.auto_complete.app
 
+import com.mj.auto_complete.BaseTest
 import com.mj.auto_complete.business.TernarySearchTree
 
 /**
@@ -19,6 +20,14 @@ class AppTest extends BaseTest {
       assertResult(true)(app.search("bcd"))
       assertResult(true)(app.search("abcd"))
       assertResult(false)(app.search("abcde"))
+    }
+  }
+
+  "autocomplete" should {
+    "success" in {
+      app.insert(List("abc", "bcd", "abcd", "bced"))
+      assertResult(List("abc", "abcd"))(app.autocomplete("a"))
+      assertResult(List("bcd", "bced"))(app.autocomplete("bc"))
     }
   }
 }

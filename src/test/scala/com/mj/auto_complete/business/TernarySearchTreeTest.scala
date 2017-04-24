@@ -25,7 +25,7 @@ class TernarySearchTreeTest extends BaseTest {
       assertResult(true)(res.middle.get.right.get.middle.get.isEnd)
       val res2 = tst.insert(Some(res), "aecb".toList, 0)
       println(res)
-      val search = tst.search(Some(res),"aecb".toList, 0)
+      val search = tst.search(Some(res), "aecb".toList, 0)
       println(search)
     }
   }
@@ -46,17 +46,14 @@ class TernarySearchTreeTest extends BaseTest {
     "success" in {
       val node = Node('a', middle = Some(Node('b', isEnd = true)))
       tst.insert(Some(node), "adc".toList, 0)
-      tst.insert(Some(node), "aecbd".toList, 0)
       tst.insert(Some(node), "aaa".toList, 0)
       tst.insert(Some(node), "daa".toList, 0)
-      tst.insert(Some(node), "adaa".toList, 0)
       tst.insert(Some(node), "adca".toList, 0)
-      println(node)
-      println(tst.traverse(Some(node),""))
-//      assertResult(true)(tst.search(Some(insertRes), "aecbd".toList, 0))
-//      assertResult(true)(tst.search(Some(insertRes), "adc".toList, 0))
-//      assertResult(false)(tst.search(Some(insertRes), "aecbdd".toList, 0))
-//      assertResult(false)(tst.search(Some(insertRes), "adecbd".toList, 0))
+      assertResult(List("aaa", "ab", "adc", "adca","daa"))(tst.autocomplete(Some(node), ""))
+      assertResult(List("aaa", "ab", "adc", "adca"))(tst.autocomplete(Some(node), "a"))
+      assertResult(List("ab"))(tst.autocomplete(Some(node), "ab"))
+      assertResult(List("adc","adca"))(tst.autocomplete(Some(node), "ad"))
+      assertResult(List())(tst.autocomplete(Some(node), "e"))
     }
   }
 

@@ -6,7 +6,7 @@ import com.mj.auto_complete.model.Node
   * Created by fjim on 24/04/2017.
   */
 class TernarySearchTree {
-  var res: List[String] = List()
+
 
   def insert(node: Option[Node], word: List[Char], position: Int): Node = {
     def insertMiddle(nd: Node) =
@@ -69,52 +69,52 @@ class TernarySearchTree {
     }*/
 
 
-  def traverse(node: Option[Node], word: String): List[String] = {
-    if (word.length == 0)
-      traverseWithoutWord(node, "")
-    else
-      traverseWithWord(node, word, 0)
-    res
-  }
+  def autocomplete(node: Option[Node], word: String): List[String] = {
+    var results: List[String] = List()
+    def traverse(node: Option[Node], word: String): Unit = {
+      if (node.isDefined && node.get != null) {
+        val stringBuilder = new StringBuilder(word)
 
-  def traverseWithoutWord(node: Option[Node], word: String): Unit = {
-    if (node.isDefined && node.get != null) {
-      val stringBuilder = new StringBuilder(word)
+        if (node.get.left isDefined)
+          traverse(node.get.left, stringBuilder.toString())
 
-      if (node.get.left isDefined)
-        traverseWithoutWord(node.get.left, stringBuilder.toString())
+        stringBuilder.append(node.get.data)
+        if (node.get.isEnd)
+          results = results :+ stringBuilder.toString()
 
-      stringBuilder.append(node.get.data)
-      if (node.get.isEnd)
-        res = res :+ stringBuilder.toString()
+        if (node.get.middle isDefined)
+          traverse(node.get.middle, stringBuilder.toString())
 
-      if (node.get.middle isDefined)
-        traverseWithoutWord(node.get.middle, stringBuilder.toString())
-
-      if (node.get.right isDefined) {
-        var str = stringBuilder.toString()
-        str = str.substring(0, str.length - 1)
-        traverseWithoutWord(node.get.right, str)
-      }
-    }
-  }
-
-  def traverseWithWord(node: Option[Node], word: String, position: Int): Unit = {
-    if (node isDefined) {
-      if (word.charAt(position) > node.get.data) {
-        traverseWithWord(node.get.right, word, position)
-      } else if (word.charAt(position) < node.get.data) {
-        traverseWithWord(node.get.left, word, position)
-      } else {
-        //middle ok!
-        if (position + 1 < word.length)
-          traverseWithWord(node.get.middle, word, position + 1)
-        else {
-          if (node.get.isEnd)
-            res = res :+ word
-          traverseWithoutWord(node.get.middle, word)
+        if (node.get.right isDefined) {
+          var str = stringBuilder.toString()
+          str = str.substring(0, str.length - 1)
+          traverse(node.get.right, str)
         }
       }
     }
+    def fetchWithPrefix(node: Option[Node], prefix: String, position: Int): Unit = {
+      if (node isDefined) {
+        prefix charAt position match {
+          case p if p > node.get.data => fetchWithPrefix(node.get.right, prefix, position)
+          case p if p < node.get.data => fetchWithPrefix(node.get.left, prefix, position)
+          case _ => //middle ok!
+            if (position + 1 < prefix.length)
+              fetchWithPrefix(node.get.middle, prefix, position + 1)
+            else {
+              if (node.get.isEnd)
+                results = results :+ prefix
+              traverse(node.get.middle, prefix)
+            }
+        }
+      }
+    }
+
+    if (word.length == 0)
+      traverse(node, "")
+    else
+      fetchWithPrefix(node, word, 0)
+    results
   }
+
+
 }

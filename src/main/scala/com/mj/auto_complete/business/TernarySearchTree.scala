@@ -27,6 +27,5 @@ class TernarySearchTree {
       }
       node.get
     }
-
   }
 }

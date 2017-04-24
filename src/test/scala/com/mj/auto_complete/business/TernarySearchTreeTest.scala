@@ -21,7 +21,6 @@ class TernarySearchTreeTest extends WordSpec with Matchers with BeforeAndAfter {
     "success when node exists" in {
       val node = Node('a', middle = Some(Node('b', isEnd = true)))
       val res = tst.insert(Some(node), "adc".toList, 0)
-      println(res)
       assertResult('d')(res.middle.get.right.get.data)
       assertResult(true)(res.middle.get.right.get.middle.get.isEnd)
     }

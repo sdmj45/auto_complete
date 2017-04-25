@@ -65,10 +65,8 @@ class TernarySearchTree {
           traverse(node.get.left, stringBuilder.toString())
 
         stringBuilder.append(node.get.data)
-        if (node.get.isEnd && results.length < MAX_SUGGESTIONS) {
+        if (node.get.isEnd && results.length < MAX_SUGGESTIONS)
           results = results :+ stringBuilder.toString()
-        }
-
 
         if (node.get.middle isDefined)
           traverse(node.get.middle, stringBuilder.toString())

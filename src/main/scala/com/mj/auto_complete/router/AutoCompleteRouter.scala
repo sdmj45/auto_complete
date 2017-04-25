@@ -13,7 +13,16 @@ class AutoCompleteRouter(autoComplete: AutoComplete) {
 
   def save(routingContext: RoutingContext): Unit = {
     val body = routingContext.getBodyAsJsonArray()
-//    autoComplete.insert()
+    autoComplete.insert(List("abc", "bcd", "abcd", "bced"))
+    routingContext.response().end()
+  }
+  def auto_complete(routingContext: RoutingContext): Unit = {
+    val prefix = routingContext.request().getParam("prefix")
+    val res = autoComplete.autocomplete(prefix.getOrElse(""))
+    routingContext.response()
+      .setChunked(true)
+      .write(res.toString())
+      .end()
   }
 
 

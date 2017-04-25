@@ -6,19 +6,19 @@ import com.mj.auto_complete.model.Node
 /**
   * Created by fjim on 24/04/2017.
   */
-object App {
-  def apply(tst: TernarySearchTree) = new App(tst)
+object AutoComplete {
+  def apply(tst: TernarySearchTree) = new AutoComplete(tst)
 }
 
-class App(tst: TernarySearchTree) {
+class AutoComplete(tst: TernarySearchTree) {
   private var node: Node = _
 
-  def insert(word: String): App = {
+  def insert(word: String): AutoComplete = {
     this.node = tst.insert(Some(node), word.toList, 0)
     this
   }
 
-  def insert(words: List[String]): App = {
+  def insert(words: List[String]): AutoComplete = {
     words.foreach(w => this.insert(w))
     this
   }

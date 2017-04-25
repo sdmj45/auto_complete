@@ -9,6 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <properties>
         <scala.version>2.12.2</scala.version>
+        <vertx.version>3.4.1</vertx.version>
     </properties>
     <dependencies>
         <dependency>
@@ -24,7 +25,12 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-lang-scala_2.12</artifactId>
-            <version>3.4.1</version>
+            <version>${vertx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-web-scala_2.12</artifactId>
+            <version>${vertx.version}</version>
         </dependency>
     </dependencies>
 
@@ -48,7 +54,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.3</version>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -56,17 +62,34 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <minimizeJar>false</minimizeJar>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                             <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
                                         <Main-Class>io.vertx.core.Launcher</Main-Class>
-                                        <Main-Verticle>com.mj.auto_complete.MainVerticle</Main-Verticle>
+                                        <Main-Verticle>scala:com.mj.auto_complete.MainVerticle</Main-Verticle>
+                                        <Class-Path>src/resources</Class-Path>
                                     </manifestEntries>
                                 </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/services/io.vertx.core.spi.VerticleFactory</resource>
+                                </transformer>
                             </transformers>
-                            <artifactSet/>
-                            <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-fat.jar</outputFile>
+                            <artifactSet>
+                            </artifactSet>
                         </configuration>
                     </execution>
                 </executions>

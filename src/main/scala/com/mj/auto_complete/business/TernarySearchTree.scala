@@ -125,5 +125,4 @@ class TernarySearchTree {
     results
   }
 
-
 }

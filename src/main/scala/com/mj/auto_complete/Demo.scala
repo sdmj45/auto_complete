@@ -3,7 +3,7 @@ package com.mj.auto_complete
 import java.util.Scanner
 
 import com.mj.auto_complete.app.AutoComplete
-import com.mj.auto_complete.business.TernarySearchTree
+import com.mj.auto_complete.business.PrefixSearch
 
 import scala.util.Try
 
@@ -14,7 +14,7 @@ object Demo {
 
   def main(args: Array[String]): Unit = {
     val scan = new Scanner(System.in).useDelimiter("\\s*\\n\\s*")
-    val autoComplete = AutoComplete(new TernarySearchTree)
+    val autoComplete = AutoComplete(new PrefixSearch)
     do {
       printHeader()
       Try(scan.next().toInt) getOrElse 0 match {

@@ -1,7 +1,7 @@
 package com.mj.auto_complete.app
 
 import com.mj.auto_complete.BaseTest
-import com.mj.auto_complete.business.TernarySearchTree
+import com.mj.auto_complete.business.PrefixSearch
 
 /**
   * Created by fjim on 24/04/2017.
@@ -10,7 +10,7 @@ class AutoCompleteTest extends BaseTest {
   private var app: AutoComplete = _
 
   before {
-    app = AutoComplete(new TernarySearchTree)
+    app = AutoComplete(new PrefixSearch)
   }
 
   "search" should {

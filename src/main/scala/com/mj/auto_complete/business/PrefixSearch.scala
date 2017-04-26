@@ -5,13 +5,13 @@ import com.mj.auto_complete.model.Node
 /**
   * Created by fjim on 24/04/2017.
   */
-object TernarySearchTree {
+object PrefixSearch {
   val MAX_SUGGESTIONS: Int = 4
 }
 
-class TernarySearchTree {
+class PrefixSearch {
 
-  import TernarySearchTree._
+  import PrefixSearch._
 
   def insert(node: Option[Node], word: List[Char], position: Int): Node = {
     def insertMiddle(nd: Node) =

@@ -6,10 +6,10 @@ import com.mj.auto_complete.model.Node
 /**
   * Created by fjim on 24/04/2017.
   */
-class TernarySearchTreeTest extends BaseTest {
-  private var tst: TernarySearchTree = _
+class PrefixSearchTest extends BaseTest {
+  private var tst: PrefixSearch = _
   before {
-    tst = new TernarySearchTree
+    tst = new PrefixSearch
   }
 
   "insert" should {
@@ -42,22 +42,17 @@ class TernarySearchTreeTest extends BaseTest {
     }
   }
 
-  "traverse" should {
+  "auto complete" should {
     "success" in {
       val node = Node('a', middle = Some(Node('b', isEnd = true)))
       tst.insert(Some(node), "adc".toList, 0)
-      tst.insert(Some(node), "aaa".toList, 0)
       tst.insert(Some(node), "daa".toList, 0)
       tst.insert(Some(node), "adca".toList, 0)
-      assertResult(List("aaa", "ab", "adc", "adca","daa"))(tst.autocomplete(Some(node), ""))
-      assertResult(List("aaa", "ab", "adc", "adca"))(tst.autocomplete(Some(node), "a"))
+      assertResult(List("ab", "adc", "adca","daa"))(tst.autocomplete(Some(node), ""))
+      assertResult(List("ab", "adc", "adca"))(tst.autocomplete(Some(node), "a"))
       assertResult(List("ab"))(tst.autocomplete(Some(node), "ab"))
       assertResult(List("adc","adca"))(tst.autocomplete(Some(node), "ad"))
       assertResult(List())(tst.autocomplete(Some(node), "e"))
     }
-  }
-
-  "delete" should {
-
   }
 }

@@ -1,5 +1,6 @@
 package com.mj.auto_complete.app
 
+import com.mj.auto_complete.business.Insert.InsertLike
 import com.mj.auto_complete.business.PrefixSearch
 import com.mj.auto_complete.model.Node
 
@@ -13,15 +14,20 @@ object AutoComplete {
 class AutoComplete(tst: PrefixSearch) {
   private var node: Node = _
 
-  def insert(word: String): AutoComplete = {
-    this.node = tst.insert(Some(node), word.toList, 0)
+  def insert[T](word: T)(implicit env: InsertLike[T]): AutoComplete = {
+    env.insert(word)
     this
   }
 
-  def insert(words: List[String]): AutoComplete = {
-    words.foreach(w => this.insert(w))
-    this
-  }
+  /*  def insert(word: String): AutoComplete = {
+      this.node = tst.insert(Some(node), word.toList, 0)
+      this
+    }
+
+    def insert(words: List[String]): AutoComplete = {
+      words.foreach(w => this.insert(w))
+      this
+    }*/
 
   def search(word: String): Boolean =
     tst.search(Some(node), word.toList, 0)

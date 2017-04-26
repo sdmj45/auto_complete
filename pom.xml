@@ -9,7 +9,6 @@
     <version>1.0-SNAPSHOT</version>
     <properties>
         <scala.version>2.12.2</scala.version>
-        <vertx.version>3.4.1</vertx.version>
     </properties>
     <dependencies>
         <dependency>
@@ -23,14 +22,9 @@
             <version>3.0.3</version>
         </dependency>
         <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-lang-scala_2.12</artifactId>
-            <version>${vertx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-web-scala_2.12</artifactId>
-            <version>${vertx.version}</version>
+            <groupId>org.scalaz</groupId>
+            <artifactId>scalaz-core_2.12</artifactId>
+            <version>7.1.13</version>
         </dependency>
     </dependencies>
 

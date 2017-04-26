@@ -7,7 +7,7 @@ import com.mj.auto_complete.business.PrefixSearch
   * Created by fjim on 24/04/2017.
   */
 class AutoCompleteTest extends BaseTest {
-  private var app: AutoComplete = _
+  private var app: Application = _
 
   before {
     app = AutoComplete(new PrefixSearch)

@@ -1,7 +1,7 @@
 package com.mj.auto_complete.business
 
 import com.mj.auto_complete.BaseTest
-import com.mj.auto_complete.model.Node
+import com.mj.auto_complete.model.PrefixNode
 
 /**
   * Created by fjim on 24/04/2017.
@@ -19,7 +19,7 @@ class PrefixSearchTest extends BaseTest {
       assertResult(true)(node.middle.get.middle.get.isEnd)
     }
     "success when node exists" in {
-      val node = Node('a', middle = Some(Node('b', isEnd = true)))
+      val node = PrefixNode('a', middle = Some(PrefixNode('b', isEnd = true)))
       val res = tst.insert(Some(node), "adc".toList, 0)
       assertResult('d')(res.middle.get.right.get.data)
       assertResult(true)(res.middle.get.right.get.middle.get.isEnd)
@@ -32,7 +32,7 @@ class PrefixSearchTest extends BaseTest {
 
   "search" should {
     "success" in {
-      val node = Node('a', middle = Some(Node('b', isEnd = true)))
+      val node = PrefixNode('a', middle = Some(PrefixNode('b', isEnd = true)))
       val insertRes = tst.insert(Some(node), "adc".toList, 0)
       tst.insert(Some(insertRes), "aecbd".toList, 0)
       assertResult(true)(tst.search(Some(insertRes), "aecbd".toList, 0))
@@ -44,7 +44,7 @@ class PrefixSearchTest extends BaseTest {
 
   "auto complete" should {
     "success" in {
-      val node = Node('a', middle = Some(Node('b', isEnd = true)))
+      val node = PrefixNode('a', middle = Some(PrefixNode('b', isEnd = true)))
       tst.insert(Some(node), "adc".toList, 0)
       tst.insert(Some(node), "daa".toList, 0)
       tst.insert(Some(node), "adca".toList, 0)

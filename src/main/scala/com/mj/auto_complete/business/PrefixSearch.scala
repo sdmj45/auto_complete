@@ -1,6 +1,6 @@
 package com.mj.auto_complete.business
 
-import com.mj.auto_complete.model.Node
+import com.mj.auto_complete.model.PrefixNode
 
 /**
   * Created by fjim on 24/04/2017.
@@ -9,12 +9,26 @@ object PrefixSearch {
   val MAX_SUGGESTIONS: Int = 4
 }
 
-class PrefixSearch {
+class PrefixSearch extends Search {
 
   import PrefixSearch._
 
-  def insert(node: Option[Node], word: List[Char], position: Int): Node = {
-    def insertMiddle(nd: Node) =
+  override type Node = PrefixNode
+
+  private var node: Node = _
+
+  override def insert(word: String): Unit =
+    insert(Some(node), word.toList, 0)
+
+  override def search(word: String): Boolean =
+    search(Some(node), word.toList, 0)
+
+  override def autoComplete(word: String): List[String] =
+    autoComplete(Some(node), word)
+
+
+  private def insert(node: Option[Node], word: List[Char], position: Int): PrefixNode = {
+    def insertMiddle(nd: PrefixNode) =
       if (position + 1 < word.length)
         nd.middle = Some(insert(nd.middle, word, position + 1))
       else
@@ -22,7 +36,7 @@ class PrefixSearch {
 
     if ((node isEmpty) || node.get == null) {
       //create new node
-      val nd = Node(toLowerCase(word(position)))
+      val nd = PrefixNode(toLowerCase(word(position)))
       insertMiddle(nd)
       nd
     } else {
@@ -36,13 +50,10 @@ class PrefixSearch {
     }
   }
 
-  private def toLowerCase(c: Char): Char =
-    Character.toLowerCase(c)
-
-  def search(node: Option[Node], word: List[Char], position: Int): Boolean = {
+  private def search(node: Option[Node], word: List[Char], position: Int): Boolean = {
     if (node isEmpty)
       false
-    else {
+    else
       word(position) match {
         case p if toLowerCase(p) < toLowerCase(node.get.data) => search(node.get.left, word, position)
         case p if toLowerCase(p) > toLowerCase(node.get.data) => search(node.get.right, word, position)
@@ -51,13 +62,12 @@ class PrefixSearch {
           else if (position + 1 == word.length) false
           else search(node.get.middle, word, position + 1)
       }
-    }
   }
 
-  def autocomplete(node: Option[Node], word: String): List[String] = {
+  private def autoComplete(node: Option[Node], word: String): List[String] = {
     var results: List[String] = List()
 
-    def traverse(node: Option[Node], word: String): Unit = {
+    def traverse(node: Option[PrefixNode], word: String): Unit = {
       if (node.isDefined && node.get != null) {
         val stringBuilder = new StringBuilder(word)
 
@@ -79,7 +89,7 @@ class PrefixSearch {
       }
     }
 
-    def fetchWithPrefix(node: Option[Node], prefix: String, position: Int): Unit = {
+    def fetchWithPrefix(node: Option[PrefixNode], prefix: String, position: Int): Unit = {
       if (node isDefined) {
         prefix charAt position match {
           case p if toLowerCase(p) > toLowerCase(node.get.data) => fetchWithPrefix(node.get.right, prefix, position)
@@ -102,5 +112,8 @@ class PrefixSearch {
       fetchWithPrefix(node, word, 0)
     results
   }
+
+  private def toLowerCase(c: Char): Char =
+    Character.toLowerCase(c)
 
 }

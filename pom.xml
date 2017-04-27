@@ -6,7 +6,7 @@
 
     <groupId>com.mj</groupId>
     <artifactId>auto_complete</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0.0</version>
     <properties>
         <scala.version>2.12.2</scala.version>
     </properties>

@@ -15,8 +15,10 @@ class PrefixService extends Service {
 
   private var node: Node = _
 
-  override def insert(word: String): Unit =
+  override def insert(word: String): Service ={
     this.node = insert(Some(node), word.toList, 0)
+    this
+  }
 
   override def search(word: String): Boolean =
     search(Some(node), word.toList, 0)

@@ -6,7 +6,6 @@ import com.mj.auto_complete.utils.Insert.InsertLike
 /**
   * Created by fjim on 25/04/2017.
   */
-
 trait ApplicationComponent {
   this: ServiceComponent =>
 

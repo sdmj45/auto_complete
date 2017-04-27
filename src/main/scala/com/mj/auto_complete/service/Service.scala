@@ -5,7 +5,7 @@ package com.mj.auto_complete.service
   */
 trait Service {
 
-  def insert(word: String): Unit
+  def insert(word: String): Service
 
   def search(word: String): Boolean
 

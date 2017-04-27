@@ -15,19 +15,47 @@ class PrefixService extends Service {
 
   private var node: Node = _
 
-  override def insert(word: String): Service ={
-    this.node = insert(Some(node), word.toList, 0)
+  /**
+    * insert word in the tree
+    *
+    * @param word
+    * @return
+    */
+  override def insert(word: String): Service = {
+    this.node = insert(Option(node), word.toList, 0)
     this
   }
 
-  override def search(word: String): Boolean =
-    search(Some(node), word.toList, 0)
+  /**
+    * check if word exists in the tree
+    *
+    * @param word
+    * @return
+    */
+  override def exists(word: String): Boolean =
+    exists(Option(node), word.toList, 0)
 
+  /**
+    * auto complete with the prefix
+    *
+    * @param word
+    * @return
+    */
   override def autoComplete(word: String): List[String] =
-    autoComplete(Some(node), word)
+    autoComplete(Option(node), word)
 
+  /**
+    * clear all nodes in the tree
+    */
   override def clear(): Unit = this.node = null
 
+  /**
+    * recursive insert
+    * @param node
+    * @param word
+    * @param position
+    * @return
+    */
   private def insert(node: Option[Node], word: List[Char], position: Int): Node = {
     def insertMiddle(nd: Node) =
       if (position + 1 < word.length)
@@ -35,87 +63,104 @@ class PrefixService extends Service {
       else
         nd.isEnd = true
 
-    if ((node isEmpty) || node.get == null) {
-      //create new node
-      val nd = Node(toLowerCase(word(position)))
-      insertMiddle(nd)
-      nd
-    } else {
-      //node exists
-      word(position) match {
-        case p if toLowerCase(p) < toLowerCase(node.get.data) => node.get.left = Some(insert(node.get.left, word, position))
-        case p if toLowerCase(p) > toLowerCase(node.get.data) => node.get.right = Some(insert(node.get.right, word, position))
-        case _ => insertMiddle(node.get)
-      }
-      node.get
+    node match {
+      case Some(n) =>
+        word(position) match {
+          case p if toLowerCase(p) < toLowerCase(n.data) => n.left = Some(insert(n.left, word, position))
+          case p if toLowerCase(p) > toLowerCase(n.data) => n.right = Some(insert(n.right, word, position))
+          case _ => insertMiddle(n)
+        }
+        n
+      case None =>
+        val nd = Node(toLowerCase(word(position)))
+        insertMiddle(nd)
+        nd
     }
   }
 
-  private def search(node: Option[Node], word: List[Char], position: Int): Boolean = {
-    if ((node isEmpty) || node.get == null)
-      false
-    else
+  /**
+    * recursive to check if word exists
+    * @param node
+    * @param word
+    * @param position
+    * @return
+    */
+  private def exists(node: Option[Node], word: List[Char], position: Int): Boolean = {
+    node.exists(n =>
       word(position) match {
-        case p if toLowerCase(p) < toLowerCase(node.get.data) => search(node.get.left, word, position)
-        case p if toLowerCase(p) > toLowerCase(node.get.data) => search(node.get.right, word, position)
+        case p if toLowerCase(p) < toLowerCase(n.data) => exists(n.left, word, position)
+        case p if toLowerCase(p) > toLowerCase(n.data) => exists(n.right, word, position)
         case _ =>
-          if (node.get.isEnd && position + 1 == word.length) true
+          if (n.isEnd && position + 1 == word.length) true
           else if (position + 1 == word.length) false
-          else search(node.get.middle, word, position + 1)
-      }
+          else exists(n.middle, word, position + 1)
+      })
   }
 
+  /**
+    * recursive
+    * @param node
+    * @param word
+    * @return
+    */
   private def autoComplete(node: Option[Node], word: String): List[String] = {
     var results: List[String] = List()
 
-    def traverse(node: Option[Node], word: String): Unit = {
-      if (node.isDefined && node.get != null) {
+    /**
+      * traverse the tree, get all words in the node
+      * @param node
+      * @param word
+      */
+    def traverse(node: Option[Node], word: String): Unit =
+      node.foreach { n =>
         val stringBuilder = new StringBuilder(word)
-
-        if (node.get.left isDefined)
-          traverse(node.get.left, stringBuilder.toString())
-
-        stringBuilder.append(node.get.data)
-        if (node.get.isEnd && results.length < MAX_SUGGESTIONS)
+        //traverse left children
+        traverse(n.left, stringBuilder.toString())
+        stringBuilder.append(n.data)
+        if (n.isEnd && results.length < MAX_SUGGESTIONS)
           results = results :+ stringBuilder.toString()
-
-        if (node.get.middle isDefined)
-          traverse(node.get.middle, stringBuilder.toString())
-
-        if (node.get.right isDefined) {
-          var str = stringBuilder.toString()
-          str = str.substring(0, str.length - 1)
-          traverse(node.get.right, str)
-        }
+        //traverse middle children
+        traverse(n.middle, stringBuilder.toString())
+        //traverse right children
+        var str = stringBuilder.toString()
+        str = str.substring(0, str.length - 1)
+        traverse(n.right, str)
       }
-    }
 
-    def fetchWithPrefix(node: Option[Node], prefix: String, position: Int): Unit = {
-      if ((node isDefined) && node.get != null) {
+    /**
+      * traverse tree corresponding to the prefix, get the node and then get all words of this node
+      * @param node
+      * @param prefix
+      * @param position
+      */
+    def traverseWithPrefix(node: Option[Node], prefix: String, position: Int): Unit =
+      node.foreach { n =>
         prefix charAt position match {
-          case p if toLowerCase(p) > toLowerCase(node.get.data) => fetchWithPrefix(node.get.right, prefix, position)
-          case p if toLowerCase(p) < toLowerCase(node.get.data) => fetchWithPrefix(node.get.left, prefix, position)
+          case p if toLowerCase(p) > toLowerCase(n.data) => traverseWithPrefix(n.right, prefix, position)
+          case p if toLowerCase(p) < toLowerCase(n.data) => traverseWithPrefix(n.left, prefix, position)
           case _ => //middle ok!
             if (position + 1 < prefix.length)
-              fetchWithPrefix(node.get.middle, prefix, position + 1)
+              traverseWithPrefix(n.middle, prefix, position + 1)
             else {
-              if (node.get.isEnd && results.length < MAX_SUGGESTIONS)
+              if (n.isEnd && results.length < MAX_SUGGESTIONS)
                 results = results :+ prefix.toLowerCase
-              traverse(node.get.middle, prefix.toLowerCase)
+              traverse(n.middle, prefix.toLowerCase)
             }
         }
       }
-    }
 
     if (word.length == 0)
       traverse(node, "")
     else
-      fetchWithPrefix(node, word, 0)
+      traverseWithPrefix(node, word, 0)
     results
   }
 
-  private def toLowerCase(c: Char): Char =
-    Character.toLowerCase(c)
-
+  /**
+    * change char to lower cas
+    * @param c
+    * @return
+    */
+  private def toLowerCase(c: Char): Char = Character.toLowerCase(c)
 
 }

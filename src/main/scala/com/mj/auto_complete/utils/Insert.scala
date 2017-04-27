@@ -4,6 +4,8 @@ import com.mj.auto_complete.service.Service
 
 /**
   * Created by fjim on 26/04/2017.
+  * 
+  * type class used to authorize insertion of word and list of words
   */
 object Insert{
 

@@ -34,7 +34,7 @@ $ java -cp target\auto_complete-1.0.0.0.jar com.mj.auto_complete.Demo
 There are 5 operations you can choose 
 1. test auto completation only with the elements given ("Pandora", "Pinterest", "Paypal"...)
 2. insert word(if multiple, separated by comma)
-3. search word
+3. check word exists
 4. auto complete suggestion
 5. clear the memory
 
@@ -47,7 +47,7 @@ You can choose the operation by typing the corresponding number
 2. insert word(if multiple, separated by comma)
 * You can insert the words as you want, if you want to insert multiple words at the same time, you have to seperate them by  comma
 
-3. search word
+3. check word exists
 * If the word you typed exists in memory, it will print "word exists", else it will print "word does not exist"
 
 4. auto complete suggestion

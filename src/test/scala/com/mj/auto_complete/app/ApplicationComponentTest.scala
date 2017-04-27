@@ -13,7 +13,7 @@ class ApplicationComponentTest extends BaseTest {
     app.insert(List("Abc", "bcd", "aBCd"))
   }
 
-  "search" should {
+  "exists" should {
     "return true when elements exist, return false when it does not exist(case no sensible)" in {
       assertResult(true)(app.search("abc"))
       assertResult(true)(app.search("Bcd"))

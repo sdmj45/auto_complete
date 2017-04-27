@@ -19,7 +19,7 @@ object Demo extends App {
     Try(scan.next().toInt) getOrElse 0 match {
       case 1 => autoCompleteWithElementsGiven()
       case 2 => insertWords()
-      case 3 => searchWord()
+      case 3 => exists()
       case 4 => autoCompletation()
       case 5 => clear()
       case _ => println("wrong entry")
@@ -33,7 +33,7 @@ object Demo extends App {
       """Auto complete Operations ( enter the number to choose )
         |1. test auto completation only with the elements given ("Pandora", "Pinterest", "Paypal"...)
         |2. insert word(if multiple, separated by comma)
-        |3. search word
+        |3. check word exists
         |4. auto complete suggestion
         |5. clear the memory
       """.stripMargin)
@@ -62,7 +62,7 @@ object Demo extends App {
       println(s"results found: ${list.mkString(", ")}")
   }
 
-  private def searchWord() = {
+  private def exists() = {
     println("enter word to search")
     val result = if (app.search(scan.next()))
       "word exists"

@@ -12,14 +12,14 @@ class PrefixServiceTest extends BaseTest {
     service.insert("ab").insert("adc").insert("aecbd").insert("daa").insert("adca")
   }
 
-  "search" should {
+  "exists" should {
     "return true when elements exist in base" in {
-      assertResult(true)(service.search("aecbd"))
-      assertResult(true)(service.search("adc"))
+      assertResult(true)(service.exists("aecbd"))
+      assertResult(true)(service.exists("adc"))
     }
     "return false when elements do not exist in base" in {
-      assertResult(false)(service.search("aecbdd"))
-      assertResult(false)(service.search("adecbd"))
+      assertResult(false)(service.exists("aecbdd"))
+      assertResult(false)(service.exists("adecbd"))
     }
   }
 

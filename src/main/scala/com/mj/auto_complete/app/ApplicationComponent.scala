@@ -18,7 +18,7 @@ trait ApplicationComponent {
       this
     }
 
-    def search(word: String): Boolean = service.search(word)
+    def search(word: String): Boolean = service.exists(word)
 
     def autoComplete(word: String): List[String] = service.autoComplete(word)
 

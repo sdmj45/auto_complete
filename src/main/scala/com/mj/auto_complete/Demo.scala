@@ -2,50 +2,27 @@ package com.mj.auto_complete
 
 import java.util.Scanner
 
-import com.mj.auto_complete.app.Application
-import com.mj.auto_complete.business.PrefixSearch
+import com.mj.auto_complete.component.ComponentRegistry
 
 import scala.util.Try
 
 /**
   * Created by fjim on 25/04/2017.
   */
-object Demo extends Application{
-
-  def test(w:String)={
-    for{
-      node<-
+object Demo extends App {
+  val scan = new Scanner(System.in).useDelimiter("\\s*\\n\\s*")
+  val app = ComponentRegistry.app
+  do {
+    printHeader()
+    Try(scan.next().toInt) getOrElse 0 match {
+      case 1 => insertWords()
+      case 2 => searchWord()
+      case 3 => autoCompletation()
+      case _ => println("wrong entry")
     }
-  }
+    println("\nDo you want to continue (Type quit to exit, anything else to continue) \n")
+  } while (!scan.next().equals("quit"))
 
-  def main(args: Array[String]): Unit = {
-    for{
-      node<-search("jj")
-    }
-
-
-
-
-
-
-
-
-
-
-    val scan = new Scanner(System.in).useDelimiter("\\s*\\n\\s*")
-    val autoComplete = Application(new PrefixSearch)
-
-    do {
-      printHeader()
-      Try(scan.next().toInt) getOrElse 0 match {
-        case 1 => insertWords(scan, autoComplete)
-        case 2 => searchWord(scan, autoComplete)
-        case 3 => autoCompletation(scan, autoComplete)
-        case _ => println("wrong entry")
-      }
-      println("\nDo you want to continue (Type quit to exit) \n")
-    } while (!scan.next().equals("quit"))
-  }
 
   private def printHeader() = {
     println(
@@ -56,23 +33,23 @@ object Demo extends Application{
       """.stripMargin)
   }
 
-  private def autoCompletation(scan: Scanner, autoComplete: Application) = {
+  private def autoCompletation() = {
     println("enter prefix to get auto complete suggestions")
-    val results = autoComplete.autocomplete(scan.next).mkString(", ")
+    val results = app.autoComplete(scan.next).mkString(", ")
     println(s"results found: $results")
   }
 
-  private def searchWord(scan: Scanner, autoComplete: Application) = {
+  private def searchWord() = {
     println("enter word to search")
-    val result = if (autoComplete.search(scan.next()))
+    val result = if (app.search(scan.next()))
       "word exists"
     else
       "word does not exist"
     println(result)
   }
 
-  private def insertWords(scan: Scanner, autoComplete: Application) = {
+  private def insertWords() = {
     println("enter words to insert(if multiple, separated by comma)")
-    autoComplete.insert(scan.next.split(",") toList)
+    app.insert(scan.next.split(",") toList)
   }
 }

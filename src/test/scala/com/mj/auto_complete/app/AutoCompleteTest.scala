@@ -1,16 +1,16 @@
 package com.mj.auto_complete.app
 
 import com.mj.auto_complete.BaseTest
-import com.mj.auto_complete.business.PrefixSearch
+import com.mj.auto_complete.service.PrefixService
 
 /**
   * Created by fjim on 24/04/2017.
   */
 class AutoCompleteTest extends BaseTest {
-  private var app: Application = _
+  private var app: ApplicationComponent = _
 
-  before {
-    app = AutoComplete(new PrefixSearch)
+  /*before {
+    app = AutoComplete(new PrefixService)
   }
 
   "search" should {
@@ -26,14 +26,14 @@ class AutoCompleteTest extends BaseTest {
   "autocomplete" should {
     "success" in {
       app.insert(List("abc", "bcd", "abcd", "bced"))
-      println(app.autocomplete("ab"))
-      assertResult(List("abc", "abcd"))(app.autocomplete("a"))
-      assertResult(List("bcd", "bced"))(app.autocomplete("bc"))
+      println(app.autoComplete("ab"))
+      assertResult(List("abc", "abcd"))(app.autoComplete("a"))
+      assertResult(List("bcd", "bced"))(app.autoComplete("bc"))
     }
     "success2" in {
       app.insert(List("Pandora", "Pinterest", "Paypal", "Pg&e","Project free tv Priceline","Press democrat","Progressive","Project runway","Proactive","Programming","Progeria"
         ,"Progesterone","Progenex","Procurable","Processor","Proud","Print","Prank","Bowl","Owl","River","Phone","Kayak","Stamps","Reprobe"))
-      println(app.autocomplete(""))
+      println(app.autoComplete(""))
     }
-  }
+  }*/
 }

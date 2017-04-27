@@ -1,11 +1,9 @@
-package com.mj.auto_complete.business
+package com.mj.auto_complete.service
 
 /**
   * Created by fjim on 26/04/2017.
   */
-trait Search {
-
-  type Node <: Node
+trait Service {
 
   def insert(word: String): Unit
 

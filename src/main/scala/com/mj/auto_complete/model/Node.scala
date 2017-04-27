@@ -1,10 +1,10 @@
 package com.mj.auto_complete.model
 
 /**
-  * Created by fjim on 24/04/2017.
+  * Created by M on 25/04/2017.
   */
-trait Node {
-  def hasChildren: Boolean
-
-  def remove(): Unit
-}
+case class Node(var data: Char,
+                var isEnd: Boolean = false,
+                var left: Option[Node] = None,
+                var middle: Option[Node] = None,
+                var right: Option[Node] = None)

@@ -21,9 +21,12 @@ trait ApplicationComponent {
 
     def search(word: String): Boolean = service.search(word)
 
-
     def autoComplete(word: String): List[String] = service.autoComplete(word)
 
+    def clear(): Application = {
+      service.clear()
+      this
+    }
   }
 
 }

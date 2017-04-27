@@ -11,4 +11,6 @@ trait Service {
 
   def autoComplete(word: String): List[String]
 
+  def clear(): Unit
+
 }

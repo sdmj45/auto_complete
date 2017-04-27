@@ -12,12 +12,16 @@ import scala.util.Try
 object Demo extends App {
   val scan = new Scanner(System.in).useDelimiter("\\s*\\n\\s*")
   val app = ComponentRegistry.app
+
+
   do {
     printHeader()
     Try(scan.next().toInt) getOrElse 0 match {
-      case 1 => insertWords()
-      case 2 => searchWord()
-      case 3 => autoCompletation()
+      case 1 => autoCompleteWithElementsGiven()
+      case 2 => insertWords()
+      case 3 => searchWord()
+      case 4 => autoCompletation()
+      case 5 => clear()
       case _ => println("wrong entry")
     }
     println("\nDo you want to continue (Type quit to exit, anything else to continue) \n")
@@ -27,16 +31,35 @@ object Demo extends App {
   private def printHeader() = {
     println(
       """Auto complete Operations ( enter the number to choose )
-        |1. insert word(if multiple, separated by comma)
-        |2. search word
-        |3. auto complete suggestion
+        |1. test auto completation only with the elements given ("Pandora", "Pinterest", "Paypal"...)
+        |2. insert word(if multiple, separated by comma)
+        |3. search word
+        |4. auto complete suggestion
+        |5. clear the memory
       """.stripMargin)
   }
 
+  private def autoCompleteWithElementsGiven() = {
+    lazy val insertList = List("Pandora", "Pinterest", "Paypal", "Pg&e", "Project free tv Priceline", "Press democrat", "Progressive", "Project runway", "Proactive", "Programming", "Progeria"
+      , "Progesterone", "Progenex", "Procurable", "Processor", "Proud", "Print", "Prank", "Bowl", "Owl", "River", "Phone", "Kayak", "Stamps", "Reprobe")
+    app clear() insert insertList
+    autoCompletation()
+  }
+
+  private def clear() = {
+    println("you want to clear the node?(y/n)")
+    if (scan.next().equals("y"))
+      app.clear()
+  }
+
+
   private def autoCompletation() = {
     println("enter prefix to get auto complete suggestions")
-    val results = app.autoComplete(scan.next).mkString(", ")
-    println(s"results found: $results")
+    val list = app.autoComplete(scan.next)
+    if (list isEmpty)
+      println("no result found")
+    else
+      println(s"results found: ${list.mkString(", ")}")
   }
 
   private def searchWord() = {

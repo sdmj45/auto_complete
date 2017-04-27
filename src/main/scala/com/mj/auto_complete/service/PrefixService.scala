@@ -24,6 +24,7 @@ class PrefixService extends Service {
   override def autoComplete(word: String): List[String] =
     autoComplete(Some(node), word)
 
+  override def clear(): Unit = this.node = null
 
   private def insert(node: Option[Node], word: List[Char], position: Int): Node = {
     def insertMiddle(nd: Node) =
@@ -113,4 +114,6 @@ class PrefixService extends Service {
 
   private def toLowerCase(c: Char): Char =
     Character.toLowerCase(c)
+
+
 }

@@ -19,12 +19,12 @@ This is an auto complete implementation test, the behaviors of this test
 
 Application requires [Java](https://www.java.com) v8+ and [Maven](https://maven.apache.org/) 3+ to run.
 
-You need Maven installed globally:
+Use maven to install the application:
 
 ```sh
 $ mvn clean install
 ```
-After the jar is built, you can use the command below to run the application
+After the jar is built, you can run the application with the command as below:
 ```sh
 $ java -cp target\auto_complete-1.0.0.0.jar com.mj.auto_complete.Demo
 ```
@@ -41,17 +41,17 @@ There are 5 operations you can choose
 You can choose the operation by typing the corresponding number
 
 1. test auto complexation only with the elements given ("Pandora", "Pinterest", "Paypal"...)
-* It will clear all the registration in the memory and insert the elements as below and you can type the prefix directly to get the suggestions
+* Firstly, It will clear all the registration in the memory, secondly, it will insert the elements as below automatically. And then you can type the prefix directly to get the suggestions
 * ("Pandora", "Pinterest", "Paypal", "Pg&e", "Project free tv Priceline", "Press democrat", "Progressive", "Project runway", "Proactive", "Programming", "Progeria", "Progesterone", "Progenex", "Procurable", "Processor", "Proud", "Print", "Prank", "Bowl", "Owl", "River", "Phone", "Kayak", "Stamps", "Reprobe")
 
 2. insert word(if multiple, separated by comma)
-* You can insert the words as you want, if you want to insert multiple words at the same time, you have to separate them by  comma
+* You can insert the words as you want, if you want to insert multiple words at the same time, you have to separate them by comma
 
 3. check word exists
 * If the word you typed exists in memory, it will print "word exists", else it will print "word does not exist"
 
 4. auto complete suggestion
-* You can type the prefix as you want, if there is no suggestions, it will print "no result found", else it will print the 4 first suggestions exist in memory
+* You can type the prefix as you want, if there is no suggestion, it will print "no result found", else it will print the 4 first suggestions exist in memory
 
 5. clear the memory
 * it will clear all of the memory
@@ -59,7 +59,7 @@ You can choose the operation by typing the corresponding number
 
 ### Answers to the optional questions
 * What would you change if the list of keywords was large (several millions)?
-
+I will use a system distributed, scalable, fault tolerant to register the data, store the data within the different replications, and load-balanced querying 
 * What would you change if the requirements were to match any portion of the
-keywords (example: for string “pro”, code would possibly return “re pro be”)?
-I will implement the Service with another algorithm who names generalized suffix tree
+Keywords (example: for string “pro”, code would possibly return “re pro be”)?
+I will implement the Service with another algorithm who names generalized suffix tree, it will register all the suffixes of the word, for example, for the word “abc”, it will create a tree who register “$”, “c$”,”bc$”,”abc$”, and with this tree, we can get all of the words with the substring searched. We can use the Ukkonen’s algorithm to implement it.

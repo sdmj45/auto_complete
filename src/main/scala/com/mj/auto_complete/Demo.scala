@@ -24,7 +24,7 @@ object Demo extends App {
       case 5 => clear()
       case _ => println("wrong entry")
     }
-    println("\nDo you want to continue (Type quit to exit, anything else to continue) \n")
+    println("\nDo you want to continue (Type quit to exit, other character to continue) \n")
   } while (!scan.next().equals("quit"))
 
 

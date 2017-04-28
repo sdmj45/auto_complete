@@ -51,6 +51,7 @@ class PrefixService extends Service {
 
   /**
     * recursive insert
+    *
     * @param node
     * @param word
     * @param position
@@ -80,6 +81,7 @@ class PrefixService extends Service {
 
   /**
     * recursive to check if word exists
+    *
     * @param node
     * @param word
     * @param position
@@ -99,6 +101,7 @@ class PrefixService extends Service {
 
   /**
     * recursive
+    *
     * @param node
     * @param word
     * @return
@@ -108,6 +111,7 @@ class PrefixService extends Service {
 
     /**
       * traverse the tree, get all words in the node
+      *
       * @param node
       * @param word
       */
@@ -117,18 +121,22 @@ class PrefixService extends Service {
         //traverse left children
         traverse(n.left, stringBuilder.toString())
         stringBuilder.append(n.data)
-        if (n.isEnd && results.length < MAX_SUGGESTIONS)
-          results = results :+ stringBuilder.toString()
-        //traverse middle children
-        traverse(n.middle, stringBuilder.toString())
-        //traverse right children
-        var str = stringBuilder.toString()
-        str = str.substring(0, str.length - 1)
-        traverse(n.right, str)
+        //if results length smaller than the MAX_SUGGESTIONS, continue the loop
+        if (results.length < MAX_SUGGESTIONS) {
+          if (n.isEnd)
+            results = results :+ stringBuilder.toString()
+          //traverse middle children
+          traverse(n.middle, stringBuilder.toString())
+          //traverse right children
+          var str = stringBuilder.toString()
+          str = str.substring(0, str.length - 1)
+          traverse(n.right, str)
+        }
       }
 
     /**
       * traverse tree corresponding to the prefix, get the node and then get all words of this node
+      *
       * @param node
       * @param prefix
       * @param position
@@ -142,9 +150,12 @@ class PrefixService extends Service {
             if (position + 1 < prefix.length)
               traverseWithPrefix(n.middle, prefix, position + 1)
             else {
-              if (n.isEnd && results.length < MAX_SUGGESTIONS)
-                results = results :+ prefix.toLowerCase
-              traverse(n.middle, prefix.toLowerCase)
+              //if results length smaller than the MAX_SUGGESTIONS, continue the loop
+              if (results.length < MAX_SUGGESTIONS) {
+                if (n.isEnd)
+                  results = results :+ prefix.toLowerCase
+                traverse(n.middle, prefix.toLowerCase)
+              }
             }
         }
       }
@@ -158,6 +169,7 @@ class PrefixService extends Service {
 
   /**
     * change char to lower cas
+    *
     * @param c
     * @return
     */

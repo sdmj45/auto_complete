@@ -20,7 +20,7 @@ object Demo extends App {
       case 1 => autoCompleteWithElementsGiven()
       case 2 => insertWords()
       case 3 => exists()
-      case 4 => autoCompletation()
+      case 4 => autoComplexation()
       case 5 => clear()
       case _ => println("wrong entry")
     }
@@ -31,7 +31,7 @@ object Demo extends App {
   private def printHeader() = {
     println(
       """Auto complete Operations ( enter the number to choose )
-        |1. test auto completation only with the elements given ("Pandora", "Pinterest", "Paypal"...)
+        |1. test auto complete only with the elements given ("Pandora", "Pinterest", "Paypal"...)
         |2. insert word(if multiple, separated by comma)
         |3. check word exists
         |4. auto complete suggestion
@@ -43,7 +43,7 @@ object Demo extends App {
     lazy val insertList = List("Pandora", "Pinterest", "Paypal", "Pg&e", "Project free tv Priceline", "Press democrat", "Progressive", "Project runway", "Proactive", "Programming", "Progeria"
       , "Progesterone", "Progenex", "Procurable", "Processor", "Proud", "Print", "Prank", "Bowl", "Owl", "River", "Phone", "Kayak", "Stamps", "Reprobe")
     app clear() insert insertList
-    autoCompletation()
+    autoComplexation()
   }
 
   private def clear() = {
@@ -53,7 +53,7 @@ object Demo extends App {
   }
 
 
-  private def autoCompletation() = {
+  private def autoComplexation() = {
     println("enter prefix to get auto complete suggestions")
     val list = app.autoComplete(scan.next)
     if (list isEmpty)

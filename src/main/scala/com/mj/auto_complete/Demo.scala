@@ -7,7 +7,7 @@ import com.mj.auto_complete.component.ComponentRegistry
 import scala.util.Try
 
 /**
-  * Created by fjim on 25/04/2017.
+  * Created by fjim on 26/04/2017.
   */
 object Demo extends App {
   val scan = new Scanner(System.in).useDelimiter("\\s*\\n\\s*")

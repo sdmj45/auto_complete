@@ -54,12 +54,4 @@ You can choose the operation by typing the corresponding number
 * You can type the prefix as you want, if there is no suggestion, it will print "no result found", else it will print the 4 first suggestions exist in memory
 
 5. clear the memory
-* it will clear all of the memory
-
-
-### Answers to the optional questions
-* What would you change if the list of keywords was large (several millions)?
-I will use a system distributed, scalable, fault tolerant to register the data, store the data within the different replications, and load-balanced querying 
-* What would you change if the requirements were to match any portion of the
-Keywords (example: for string “pro”, code would possibly return “re pro be”)?
-I will implement the Service with another algorithm who names generalized suffix tree, it will register all the suffixes of the word, for example, for the word “abc”, it will create a tree who register “$”, “c$”,”bc$”,”abc$”, and with this tree, we can get all of the words with the substring searched. We can use the Ukkonen’s algorithm to implement it.
+* it will clear all of the node tree
